@@ -18,14 +18,14 @@ const jobs=[
         name: "Pizzaria Guloso",
         "daily-hours":2,
         "total-hours":60,
-        createdAt=Date.now(),
+        createdAt: Date.now(),
     },
     {
         id:2,
         name: "OneTwo Project",
         "daily-hours":4,
         "total-hours":47,
-        createdAt=Date.now(),
+        createdAt:Date.now(),
     }
 ]
 
@@ -38,7 +38,7 @@ routes.post("/job",(req,res) =>{
         name: req.body.name,
         "daily-hours":req.body["daily-hours"],
         "total-hours":req.body["total-hours"],
-        createdAt=Date.now(),
+        createdAt:Date.now(),
     });
     return res.redirect("/");
 });
