@@ -1,9 +1,9 @@
 const express=require("express");
+const routes=require("./routes");
 
 const server=express();
 
-server.get("/",(_,res)=>{
-    return res.sendFile(__dirname+"\\views\\index.html");
-});
+server.use(express.static("public"));
+server.use(routes);
 
 server.listen(3000, ()=> console.log("Rodando"));
