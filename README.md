@@ -6,6 +6,7 @@
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-usar">Usar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-licença">Licença</a>
 </p>
 
@@ -41,10 +42,34 @@ O JobsCalc é uma aplicação de estimativa de cálculo para projetos freelancer
 
 Você pode visualizar o layout do projeto através [desse link](https://www.figma.com/file/s4fytPFbDiSkv4GPSfKaLE/Jobs-Planning). É necessário ter conta no [Figma](https://figma.com) para acessá-lo.
 
+## Usar
+
+Para usar e experimentar esse projeto é necessário ter o NodeJS instalado na sua máquina. Além do Node é preciso ter o EJS, Express, SQLite e SQLite3 e o Nodemon como dependência de desenvolvimento.
+
+Para iniciar o projeto execute o comando, para baixar todas as dependências necessárias:
+
+```bash
+npm install 
+```
+
+Após esse comando é necessário executar pelo menos uma vez o arquivo que inicia o banco de dados da aplicação, para isso execute:
+
+```bash
+npm run init-db
+```
+
+Após todos esses passos, o projeto está pronto para ser executado na sua máquina local usando:
+
+```bash
+npm run dev
+```
+
+Para visualizar a aplição vá para **localhost:3000** no seu navegador e o projeto deve ser exibido.
+
 ## :memo: Licença
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](.github/LICENSE.md) para mais detalhes.
 
 ---
 
-Feito com ♥ by Rocketseat :wave: [Participe da nossa comunidade!](https://discordapp.com/invite/gCRAFhc)
+Feito com ♥ by José Ulisses & Rocketseat :wave: [Participe da nossa comunidade!](https://discordapp.com/invite/gCRAFhc)
