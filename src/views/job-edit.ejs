@@ -23,14 +23,17 @@
       rel="stylesheet"
     />
 
-    <script type="module" src="./scripts/job-edit.js"></script>
+    <script type="module" src="/scripts/job-edit.js"></script>
     
   </head>
   <body id="page-job-edit">
-    <%- include("parts/page-header",{title:"Editar Job"})  %> 
+    
+    <%- include("parts/page-header", { title: "Editar Job"}) %>
 
     <div class="container flex animate-up delay-2">
-        <form id="form-job" method="POST" action="/job/<%= job.id %> ">
+
+        <form id="form-job" method="POST" action="/job/<%= job.id %>">
+
           <fieldset>
             <legend>Dados do Job</legend>
             <div class="separator light"></div>
@@ -116,7 +119,7 @@
       </div>
       <form 
         method="post" 
-        action="/job/delete/{JOBID}" 
+        action="/job/delete/<%= job.id %> " 
         id="delete-job"></form>
     </div>
     <!-- end modal-wrapper -->
