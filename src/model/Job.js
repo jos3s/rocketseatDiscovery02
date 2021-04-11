@@ -17,11 +17,24 @@ module.exports={
 			createdAt:job.created_at
 		}));
 	},
-	update(newData){
-		data=newData;
+	async update(jobId,updateJob){
+		const db=await Database();
+
+		await db.run(`UPDATE jobs SET
+			name="${updateJob.name}",	
+			daily_hours=${updateJob["daily-hours"]},
+			total_hours=${updateJob["total-hours"]}
+			WHERE id=${jobId}
+		`);
+		
+		await db.close()
 	},
-	delete(id){
-		data=data.filter(job=>Number(job.id)!==Number(id));
+	async delete(id){
+		const db=await Database();
+
+		await db.run(`DELETE FROM jobs WHERE id=${id}`);
+		
+		await db.close();
 	},
 	async create(newJob){
 		const db=await Database();
