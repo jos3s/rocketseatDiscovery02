@@ -6,11 +6,8 @@ module.exports={
     create(req,res){
         return res.render("job")
     },     
-    save(req,res){
-        const lastId=Job.get()[Job.get().length-1]?.id || 0;
-
-        Job.create({
-            id:lastId+1,
+    async save(req,res){
+        await Job.create({
             name: req.body.name,
             "daily-hours":req.body["daily-hours"],
             "total-hours":req.body["total-hours"],
@@ -18,20 +15,20 @@ module.exports={
         });
         return res.redirect("/");
     },
-    show(req,res){
+    async show(req,res){
         const jobId=req.params.id;
-        const jobs=Job.get();
+        const jobs= await Job.get();
         const job=jobs.find(job => Number(job.id)===Number(jobId));
         if(!job){
             res.send("Job not found aqui");
         }
 
-        job.budget=jobUtils.calculateBudget(job,Profile.get()["value-hour"]);
+        job.budget=jobUtils.calculateBudget(job, await Profile.get()["value-hour"]);
         return res.render("job-edit",{job});
     },
-    update(req,res){
+    async update(req,res){
         const jobId=req.params.id;
-        const jobs=Job.get();
+        const jobs= await Job.get();
         const job=jobs.find(job => Number(job.id)===Number(jobId));
         if(!job){
             res.send("Job not found");
