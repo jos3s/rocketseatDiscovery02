@@ -9,21 +9,15 @@ const Job={
             id:1,
             name: "Pizzaria Guloso",
             "daily-hours":2,
-            "total-hours":0,
-            createdAt: Date.now(),
-            budget:3000,
-            remaining:3,
-            status:"progress"
+            "total-hours":1,
+            createdAt: Date.now()
         },
         {
             id:2,
             name: "OneTwo Project",
             "daily-hours":4,
             "total-hours":47,
-            createdAt:Date.now(),
-            budget:4500,
-            remaining:4,
-            status:"progress"
+            createdAt:Date.now()
         }
     ],
     controllers:{
@@ -35,7 +29,7 @@ const Job={
                     ...job,
                     remaining,
                     status,
-                    budget:Profile.data["value-hour"]*job["total-hours"],
+                    budget:Job.services.calculateBudget(job,Profile.data["value-hour"]),
                 };
             });
             return res.render(views+"index", {jobs:updateJobs});
@@ -53,6 +47,38 @@ const Job={
                 createdAt:Date.now(),
             });
             return res.redirect("/");
+        },
+        show(req,res){
+            const jobId=req.params.id;
+            const job=Job.data.find(job => Number(job.id)===Number(jobId));
+            if(!job){
+                res.send("Job not found");
+            }
+
+            job.budget=Job.services.calculateBudget(job,Profile.data["value-hour"]);
+            return res.render(views+"job-edit",{job});
+        },
+        update(req,res){
+            const jobId=req.params.id;
+            const job=Job.data.find(job => Number(job.id)===Number(jobId));
+            if(!job){
+                res.send("Job not found");
+            }
+
+            const updatedJob={
+                ...job,
+                name:req.body.name,
+                "total-hours":req.body["total-hours"],
+                "daily-hours":req.body["daily-hours"]
+            }
+
+            Job.data=Job.data.map(job=>{
+                if(Number(job.id)===Number(jobId)){
+                    job=updatedJob;
+                }
+                return job
+            });
+            res.redirect("/job/"+jobId);
         }
     },
     services:{
@@ -62,14 +88,14 @@ const Job={
             const createDate=new Date(job.createdAt);
             const dueDay=createDate.getDate() + Number(remainingDays); //+ dueDay: data de entrega
         
-            console.log(dueDay)
             const dueDateInMs=createDate.setDate(dueDay);
-            console.log(dueDateInMs)
             const timeDiffInMs=dueDateInMs-Date.now(); //+ diferença da data de entrega para a data atual em ms
             const dayInMs=1000*60*60*24;
             const dayDiff=Math.floor(timeDiffInMs/dayInMs);
-            console.log(timeDiffInMs,dayInMs)
             return dayDiff; //+ dias restantes
+        },
+        calculateBudget(job,valueHour){
+            return valueHour*job["total-hours"];
         }
     }
 }
@@ -111,7 +137,8 @@ const Profile={
 routes.get("/",Job.controllers.index);
 routes.get("/job", Job.controllers.create);
 routes.post("/job",Job.controllers.save);
-routes.get("/job/edit",(req,res) => res.render(views+"job-edit"));
+routes.get("/job/:id",Job.controllers.show);
+routes.post("/job/:id",Job.controllers.update);
 routes.get("/profile",Profile.controllers.index);
 routes.post("/profile",Profile.controllers.update);
 
