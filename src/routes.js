@@ -1,7 +1,7 @@
 const express=require("express");
 const routes=express.Router();
 
-const views=__dirname+"/views/";
+const ProfileController=require("./controllers/ProfileController");
 
 const Job={
     data:[
@@ -32,10 +32,10 @@ const Job={
                     budget:Job.services.calculateBudget(job,Profile.data["value-hour"]),
                 };
             });
-            return res.render(views+"index", {jobs:updateJobs});
+            return res.render("index", {jobs:updateJobs});
         },
         create(req,res){
-            return res.render(views+"job")
+            return res.render("job")
         },     
         save(req,res){
             const lastId=Job.data[Job.data.length-1]?.id || 0;
@@ -56,7 +56,7 @@ const Job={
             }
 
             job.budget=Job.services.calculateBudget(job,Profile.data["value-hour"]);
-            return res.render(views+"job-edit",{job});
+            return res.render("job-edit",{job});
         },
         update(req,res){
             const jobId=req.params.id;
@@ -107,47 +107,13 @@ const Job={
     }
 }
 
-const Profile={
-    data:{
-        name:"José Ulisses",
-        avatar:"https://avatars.githubusercontent.com/u/50359547?v=4",
-        "monthly-budget":3000,
-        "days-per-week":5,
-        "hours-per-day":5,
-        "vacation-per-year":10,
-        "value-hour":75
-    },
-    controllers:{
-        index(req,res){
-            return res.render(views+"profile",{profile:Profile.data})
-        },
-        update(req,res){
-            const data=req.body;
-
-            const weekPerYear=52;
-            const weeksPerMonth=(weekPerYear-data["vacation-per-year"])/12;
-            const weekTotalHours=data["hours-per-day"]*data["days-per-week"];
-            const monthlyTotalHours=weekTotalHours*weeksPerMonth;
-
-            const valueHour=data["monthly-budget"]/monthlyTotalHours;
-
-            Profile.data={
-                ...Profile.data,
-                ...req.body,
-                "value-hour":valueHour,
-            }
-            return res.redirect("/profile");
-        }
-    }
-}
-
 routes.get("/",Job.controllers.index);
 routes.get("/job", Job.controllers.create);
 routes.post("/job",Job.controllers.save);
 routes.get("/job/:id",Job.controllers.show);
 routes.post("/job/:id",Job.controllers.update);
 routes.post("/job/delete/:id",Job.controllers.delete);
-routes.get("/profile",Profile.controllers.index);
-routes.post("/profile",Profile.controllers.update);
+routes.get("/profile",ProfileController.index);
+routes.post("/profile",ProfileController.update);
 
 module.exports=routes;
