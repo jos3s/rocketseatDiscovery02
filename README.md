@@ -64,7 +64,7 @@ Após todos esses passos, o projeto está pronto para ser executado na sua máqu
 npm run dev
 ```
 
-Para visualizar a aplição vá para **localhost:3000** no seu navegador e o projeto deve ser exibido.
+Para visualizar a aplicação vá para **localhost:3000** no seu navegador e o projeto deve ser exibido.
 
 ## :memo: Licença
 
